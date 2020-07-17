@@ -45,16 +45,12 @@ var player2 = {
     [0, 0, 0, 0]
   ]
 };
-player1.name = prompt ('Welcome, what is your name?')
-player2.name = prompt ('Welcome, what is your name?')
-alert ("We will play the Battleship Game")
-alert ("You will have one turn at the time")
 
 var x;
 var y;
-var x2;
-var y2;
 var currentplayer;
+var opponent;
+
 function getRandomNumber() {
   var valmin=0; 
   var valmax=4;  
@@ -91,20 +87,45 @@ function disparar(player,x,y){
     //alert ("You hit your opponent has one less ship")
     player.gameBoard[x][y] = 0
     player.shipCount --
+    // if (currentplayer === player1){//***cambiar turno */
+    //   currentplayer = player2;
+    // } else{
+    //   currentplayer = player1;
+    // }
   }else{
     console.log ("lo siento no estas hundiendo barcos de tu oponente")
     //alert("Sorry you did not hit your opponent")
     console.log(player)
+    // if (currentplayer === player1){//***cambiar turno */
+    //   currentplayer = player2;
+    // } else{
+    //   currentplayer = player1;
+    // }
   }
-  return player.name
+  return player.name;
 }
 
+//TRATAR DE DESHABILITAR DIV Y SUS HIJOS
+function disableDivplayer1 () {
+  console.log('entroadeshabilitarDivplayer1')
+  var nodes = document.getElementById("player1").getElementsByTagName('*');
+  for(var i = 0; i < nodes.length; i++){
+      nodes[i].disabled = true;
+  }
+}
+function disableDivplayer2 () {
+  console.log('entroadeshabilitarDivplayer2')
+  var nodes = document.getElementById("player2").getElementsByTagName('*');
+  for(var i = 0; i < nodes.length; i++){
+      nodes[i].disabled = true;
+    }
+}
 console.log("Player 1 " + player1.gameBoard);
 console.log("Player 2 " + player2.gameBoard);
 
 //function reset() { //DO NOT USE AS WE DO NOT HAVE A FORM HERE
 //  document.getElementById("myForm").reset();
-//BUTTONS
+//CREATE BUTTONS
 const NodeButt = document.getElementById('buttons');
 var buttonRes = document.createElement("button");
 buttonRes.innerHTML = "Reset Game";
@@ -118,7 +139,6 @@ function refreshPage(){
   window.location.reload();
 } 
 
-currentplayer = player1;//INIT current player
 const board_Player1 = document.getElementById('board_player1');
 for (var x = 0; x < 4; x++) {
     const li = document.createElement('li'); // creating childs for the list (board), in this case represent a row number 'x' of the board
@@ -128,11 +148,13 @@ for (var x = 0; x < 4; x++) {
       cell.textContent = `${x},${y}`;  // saves the coordinates as a string value 'x,y'
       cell.value = 0;//state of the cell
       //turnos
-      //this function adds the click event to each cell
-      
-      if (currentplayer === player2)
+      //this function adds the click event to each cell      
+      if ((currentplayer === player2) && (opponent === player1))  //SOLO PUEDES DISPARAR EN BOARD1 SI ERES PLAYER2
       {
+        //ENTRO BOARD1
+        console.log('entro board1')
         //HOW TO SET BOARD PLAYER ENABLE OR DISABLE
+        disableDivplayer2 ();//Deshabilita tablero player2 y sus hijos para que no se dispare solo
           cell.addEventListener( 'click', (e) => {//player1          
           let cell = e.target; // get the element clicked
           console.log(cell.textContent)//split by comma and parse two integer
@@ -143,12 +165,14 @@ for (var x = 0; x < 4; x++) {
           var y = parseInt(coordp1[1])
           console.log (x)
           console.log (y)
+          //turnos(player2);//*******PROBAR con function turnos
           //player1 = disparar(player1,x,y);
           disparar(player1,x,y)// player2 shot player 1 in player1 board
           console.log (player1.shipCount)
           console.log (board_Player1);
           console.log (board_Player2);
           currentplayer = player1; //switch turn to shot to player 1
+          opponent = player2;
           console.log (currentplayer);        
           if ((player1.shipCount === 0) || (player2.shipCount === 0)){//END THE GAME AND REFRESH THE PAGE
             alert ("I am sorry you loose all your ships the GAME IS OVER");
@@ -159,9 +183,11 @@ for (var x = 0; x < 4; x++) {
           //cell.style.background ="purple"; //with this propertie you can change the background color of the clicked cell. try comment the line bellow and uncomment this line. Do not forget to save this file and refresh the borwser to see the changes
         });
         }
-        else{ 
-          currentplayer = player1
-        }
+        //else{
+           
+        //   currentplayer = player1
+        //   opponent = player2
+        // }
         
       li.appendChild(cell); //adding each cell into the row number x
     }
@@ -180,10 +206,12 @@ for (var x = 0; x < 4; x++) {
       cell.value = 0;//state of the cell
       //console.log (currentplayer);
       //this function adds the click event to each cell
-      if (currentplayer === player1)
+      if ((currentplayer === player1) && (opponent === player2)) //SOLO PUEDES DISPARAR EN BOARD2 SI ERES PLAYER1
       {//HOW TO SET BOARD PLAYER ENABLE OR DISABLE
       //this function adds the click event to each cell
-        cell.addEventListener( 'click', (e) => {
+        disableDivplayer1 (); //Deshabilita tablero player1 y sus hijos
+        console.log('entro board2')
+        cell.addEventListener ('click', (e) =>  {
         let cell = e.target; // get the element clicked
         console.log( cell.textContent) //display the coordinates in the console
         cell.style.visibility = 'hidden';
@@ -196,11 +224,14 @@ for (var x = 0; x < 4; x++) {
         var y = parseInt(coordp2[1])
         console.log (x)
         console.log (y)
+        //*******PROBAR con function turnos
+        //turnos(player1);
         //player2 = disparar(player2,x,y);
         disparar(player2,x,y)//player 1 shot player2 in her board
         console.log (board_Player1);
         console.log (board_Player2);
-        currentplayer = player2;//CHANGE TURN TO SHOT
+        currentplayer = player2;//CAMBIA TURNO
+        opponent = player1;
         console.log (currentplayer);
         if ((player1.shipCount === 0) || (player2.shipCount === 0)){
         alert ("I am sorry you loose all your ships the GAME IS OVER");
@@ -208,37 +239,49 @@ for (var x = 0; x < 4; x++) {
         }
       });//END EVENT LISTENER
     }//END IF
-      else { 
-        currentplayer = player2
-      }
+      // else { 
+      //   currentplayer = player2;
+      //   opponent = player1;
+      // }
       li.appendChild(cell); //adding each cell into the row number x
     }
 
      board_Player2.appendChild(li); //adding each row into the board
 }
 
+player1.name = prompt ('Welcome, what is your name?')
+player2.name = prompt ('Welcome, what is your name?')
+alert ("We will play the Battleship Game")
+alert ("You will have one turn at the time")
+currentplayer = player1;
+opponent = player2; //INIT currentplayer
+
+
+  
+
 //FUNCTION TO SWAPT THE TURN
 // function turnos (currentplayer){//always starts with player1 by default
-//   var winner
-//   do{
-//      if (currentplayer === player1) {     
-//        player2 = disparar(player2,x,y);
-//     console.log(player2.gameBoard);//aqui cuento numero de ships tambien
-//     //alert(`${player1.name} tiene ships${player1.shipCount}`);
-//     //pasar turno player2
-//     currentplayer = player2 //pasar turno a player2
-//     }
-//     else  {
-//       player1 = disparar (player1,x,y)
-//       //alert (player1.gameBoard)    
-//       console.log(player1.shipCount)
-//       //alert (`${player2.name}tiene ships${player2.shipCount}`)
-//       //regresar turno a player1
-//       console.log('termino en else')
-//       currentplayer = player1 //pasar turno a player1
-//     }
-//     } while (player2.shipCount > 0 && player1.shipCount > 0)
-// }//END FUNCTION TURNOS  
+//    var winner
+//    do{
+//       if (currentplayer === player1) {     
+//         player2 = disparar(player2,x,y);
+//         console.log(player1.shipCount)
+// //     console.log(player2.gameBoard);//aqui cuento numero de ships tambien
+// //     //alert(`${player1.name} tiene ships${player1.shipCount}`);
+// //     //pasar turno player2
+//      currentplayer = player2 //pasar turno a player2
+//      }
+//      else  {
+//        player1 = disparar (player1,x,y)
+// //       //alert (player1.gameBoard)    
+//        console.log(player1.shipCount)
+// //       //alert (`${player2.name}tiene ships${player2.shipCount}`)
+// //       //regresar turno a player1
+// //       console.log('termino en else')
+//        currentplayer = player1 //pasar turno a player1
+//      }
+//      } while (player2.shipCount > 0 && player1.shipCount > 0)
+//  }//END FUNCTION TURNOS  
 
 
 //function turnos (currentplayer){//always starts with player1 by default
@@ -333,7 +376,3 @@ for (var x = 0; x < 4; x++) {
 
 // const htmlTarget = document.getElementById('result')
 // htmlTarget.innerHTML = gameResult
-
-
-
-

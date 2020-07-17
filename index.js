@@ -119,10 +119,15 @@ for (var x = 0; x < 4; x++) {
       cell.className = "square"; // adding css properties to make it looks like a square
       cell.textContent = `${x},${y}`;  // saves the coordinates as a string value 'x,y'
       cell.value = 0;//state of the cell
-      if ((currentplayer === player2) && (opponent === player1)){  //SOLO PUEDES DISPARAR EN BOARD1 SI ERES PLAYER2
-
+      console.log (currentplayer)
+      console.log (opponent)
+      //if ((currentplayer === player2) && (opponent === player1)){  //SOLO PUEDES DISPARAR EN BOARD1 SI ERES PLAYER2
+        
       //this function adds the click event to each cell
       cell.addEventListener( 'click', (e) => {
+          if (document.getElementById("board_player2").disabled === true){
+            return false;
+          }
           document.getElementById("board_player2").disabled = true;
           document.getElementById("board_player1").disabled = false;
           let cell = e.target; // get the element clicked
@@ -148,7 +153,7 @@ for (var x = 0; x < 4; x++) {
             refreshPage()
           }
       });
-    }
+    //}
       li.appendChild(cell); //adding each cell into the row number x
     }
 
@@ -167,10 +172,14 @@ for (var x = 0; x < 4; x++) {
       cell.className = "square"; // adding css properties to make it looks like a square
       cell.textContent = `${x},${y}`;  // saves the coordinates as a string value 'x,y'
       cell.value = 0;//state of the cell
-
+      console.log (currentplayer)
+      console.log (opponent)
       //this function adds the click event to each cell
-      if ((currentplayer === player1) && (opponent === player2)){ //SOLO PUEDES DISPARAR EN BOARD2 SI ERES PLAYER1
+      //if ((currentplayer === player1) && (opponent === player2)){ //SOLO PUEDES DISPARAR EN BOARD2 SI ERES PLAYER1
       cell.addEventListener( 'click', (e) => {
+        if (document.getElementById("board_player1").disabled === true){
+          return false;
+        }
         document.getElementById("board_player1").disabled = true;
         document.getElementById("board_player2").disabled = false;
         let cell = e.target; // get the element clicked
@@ -185,8 +194,6 @@ for (var x = 0; x < 4; x++) {
           console.log (x)
           console.log (y)
           disparar(player2,x,y)//player 1 shot player2 in her board
-          //console.log (board_Player1);
-          //console.log (board_Player2);
           currentplayer = player2;//CAMBIA TURNO
           opponent = player1;
           console.log (currentplayer);
@@ -195,7 +202,7 @@ for (var x = 0; x < 4; x++) {
             refreshPage();
           }
       });
-    }
+    //}
     
       li.appendChild(cell); //adding each cell into the row number x
     }

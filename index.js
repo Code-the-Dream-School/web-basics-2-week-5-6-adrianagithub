@@ -112,14 +112,23 @@ function disableDivplayer1 () {
   for(var i = 0; i < nodes.length; i++){
       nodes[i].disabled = true;
   }
+  return;
 }
+
 function disableDivplayer2 () {
   console.log('entroadeshabilitarDivplayer2')
   var nodes = document.getElementById("player2").getElementsByTagName('*');
   for(var i = 0; i < nodes.length; i++){
       nodes[i].disabled = true;
     }
+  return;  
 }
+
+//ANOTHER WAY TO TRY TO DISABLE THE DIV WITH CSS .DISABLED
+//div.disabled{
+//  display: none;
+//} //IN THE DIV ID I SHOULD USE THIS CLASS BUT I STILL NEED TO USE IN THE EVENT CLICK
+
 console.log("Player 1 " + player1.gameBoard);
 console.log("Player 2 " + player2.gameBoard);
 

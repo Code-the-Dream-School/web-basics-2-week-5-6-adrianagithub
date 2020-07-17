@@ -33,10 +33,10 @@ var player2 = {
 
 var x;
 var y;
-var currentplayer;
-var opponent;
 var coordp1 = [];
 var coordp2 = [];
+var currentplayer = player1;
+var opponent = player2; //INIT currentplayer
 function getRandomNumber() {
   var valmin=0; 
   var valmax=4;  
@@ -119,9 +119,12 @@ for (var x = 0; x < 4; x++) {
       cell.className = "square"; // adding css properties to make it looks like a square
       cell.textContent = `${x},${y}`;  // saves the coordinates as a string value 'x,y'
       cell.value = 0;//state of the cell
+      if ((currentplayer === player2) && (opponent === player1)){  //SOLO PUEDES DISPARAR EN BOARD1 SI ERES PLAYER2
 
       //this function adds the click event to each cell
       cell.addEventListener( 'click', (e) => {
+          document.getElementById("board_player2").disabled = true;
+          document.getElementById("board_player1").disabled = false;
           let cell = e.target; // get the element clicked
           console.log( cell.textContent) //display the coordinates in the console
           cell.style.visibility = 'hidden';// this  means that the contents of the element will be invisible, but the element stays in its original position and size / try it clicking on any of the black cells (in your browser) and see whats happens
@@ -133,13 +136,25 @@ for (var x = 0; x < 4; x++) {
           var y = parseInt(coordp1[1])
           console.log (x)
           console.log (y)
+          disparar(player1,x,y)// player2 shot player 1 in player1 board
+          console.log (player1.shipCount)
+          //console.log (board_Player1);
+          //console.log (board_Player2);
+          currentplayer = player1; //switch turn to shot to player 1
+          opponent = player2;
+          console.log (currentplayer);        
+          if ((player1.shipCount === 0) || (player2.shipCount === 0)){//END THE GAME AND REFRESH THE PAGE
+            alert ("I am sorry you loose all your ships the GAME IS OVER");
+            refreshPage()
+          }
       });
-
+    }
       li.appendChild(cell); //adding each cell into the row number x
     }
 
      board_Player1.appendChild(li); //adding each row into the board
 }
+
 
 const board_player2 = document.getElementById('board_player2');
 
@@ -154,8 +169,11 @@ for (var x = 0; x < 4; x++) {
       cell.value = 0;//state of the cell
 
       //this function adds the click event to each cell
+      if ((currentplayer === player1) && (opponent === player2)){ //SOLO PUEDES DISPARAR EN BOARD2 SI ERES PLAYER1
       cell.addEventListener( 'click', (e) => {
-          let cell = e.target; // get the element clicked
+        document.getElementById("board_player1").disabled = true;
+        document.getElementById("board_player2").disabled = false;
+        let cell = e.target; // get the element clicked
           console.log( cell.textContent) //display the coordinates in the console
           cell.style.visibility = 'hidden';// this  means that the contents of the element will be invisible, but the element stays in its original position and size / try it clicking on any of the black cells (in your browser) and see whats happens
           //cell.style.background ="purple"; //with this propertie you can change the background color of the clicked cell. try comment the line bellow and uncomment this line. Do not forget to save this file and refresh the borwser to see the changes
@@ -166,10 +184,25 @@ for (var x = 0; x < 4; x++) {
           var y = parseInt(coordp2[1])
           console.log (x)
           console.log (y)
+          disparar(player2,x,y)//player 1 shot player2 in her board
+          //console.log (board_Player1);
+          //console.log (board_Player2);
+          currentplayer = player2;//CAMBIA TURNO
+          opponent = player1;
+          console.log (currentplayer);
+          if ((player1.shipCount === 0) || (player2.shipCount === 0)){
+            alert ("I am sorry you loose all your ships the GAME IS OVER");
+            refreshPage();
+          }
       });
-
+    }
+    
       li.appendChild(cell); //adding each cell into the row number x
     }
 
      board_player2.appendChild(li); //adding each row into the board
 }
+player1.name = prompt ('Welcome, what is your name?')
+player2.name = prompt ('Welcome, what is your name?')
+alert ("We will play the Battleship Game")
+alert ("You will have one turn at the time")

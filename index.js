@@ -57,15 +57,12 @@ function createShip(player, ships) {
 }
 function disparar(player,x,y){
   if (player.gameBoard[x][y] === 1){
-    console.log("estas disparando")
-    console.log(player)
     alert ("You hit your opponent has one less ship")
     player.gameBoard[x][y] = 0
     player.shipCount --
     }
   else {
-    console.log ("lo siento no estas hundiendo barcos de tu oponente")
-    //alert("Sorry you did not hit your opponent")
+    alert("Sorry you did not hit your opponent")
     console.log(player)
   }
   return player.name;

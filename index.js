@@ -37,6 +37,8 @@ var coordp1 = [];
 var coordp2 = [];
 var currentplayer = player1;
 var opponent = player2; //INIT currentplayer
+var player;
+var lives;
 //***FUNCTIONS***//
 function getRandomNumber() {
   var valmin=0; 
@@ -111,7 +113,10 @@ for (var x = 0; x < 4; x++) {
           disparar(player1,x,y)// player2 shot player 1 in player1 board
           console.log (player1.shipCount)
           currentplayer = player1; //switch turn to shot to player 1
-          opponent = player2;        
+          opponent = player2;
+          player = currentplayer.name;
+          lives = currentplayer.shipCount;        
+          document.getElementById("turn_player").value = player;
           if ((player1.shipCount === 0) || (player2.shipCount === 0)){//END THE GAME AND REFRESH THE PAGE
             alert ("I am sorry you loose all your ships the GAME IS OVER");
             refreshPage()
@@ -149,6 +154,9 @@ for (var x = 0; x < 4; x++) {
         disparar(player2,x,y)//player 1 shot player2 in her board
         currentplayer = player2;//CAMBIA TURNO
         opponent = player1;
+        player = currentplayer.name;
+        lives = currentplayer.shipCount;
+        document.getElementById("turn_player").value = player;
         if ((player1.shipCount === 0) || (player2.shipCount === 0)){
             alert ("I am sorry you loose all your ships the GAME IS OVER");
             refreshPage();
@@ -160,7 +168,14 @@ for (var x = 0; x < 4; x++) {
 }
 
 createButtons();
+createShip(player1, 4)
+//console.log("Player 1 " + JSON.stringify(player1.gameBoard));
+console.log("Player 1 " + player1.gameBoard);
+createShip(player2, 4)
+console.log("Player 2 " + player2.gameBoard);
+//console.log("Player 2 " + JSON.stringify(player2.gameBoard));
 player1.name = prompt ('Welcome, what is your name?')
 player2.name = prompt ('Welcome, what is your name?')
 alert ("We will play the Battleship Game")
 alert ("You will have one turn at the time")
+/// FALTA WINNER 

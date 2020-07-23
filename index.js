@@ -81,6 +81,8 @@ function createButtons () {
     buttonNew.addEventListener("click", refreshPage);
   return;
 }
+//reset wont apply function refreshPage
+//new game
 function refreshPage(){
   window.location.reload();
 } 
@@ -116,7 +118,10 @@ for (var x = 0; x < 4; x++) {
           opponent = player2;
           player = currentplayer.name;
           lives = currentplayer.shipCount;        
-          document.getElementById("turn_player").value = player;
+          document.getElementById("turn_player").textContent = player;//AQUI
+          document.getElementById("ships_player1").textContent = livesp1;
+          document.getElementById("ships_player2").textContent = livesp2;
+          
           if ((player1.shipCount === 0) || (player2.shipCount === 0)){//END THE GAME AND REFRESH THE PAGE
             alert ("I am sorry you loose all your ships the GAME IS OVER");
             refreshPage()
@@ -155,8 +160,11 @@ for (var x = 0; x < 4; x++) {
         currentplayer = player2;//CAMBIA TURNO
         opponent = player1;
         player = currentplayer.name;
-        lives = currentplayer.shipCount;
-        document.getElementById("turn_player").value = player;
+        livesp1 = player1.shipCount;
+        livesp2 = player2.shipCount;
+        document.getElementById("turn_player").textContent = player;
+        document.getElementById("ships_player1").textContent = livesp1;
+        document.getElementById("ships_player2").textContent = livesp2;
         if ((player1.shipCount === 0) || (player2.shipCount === 0)){
             alert ("I am sorry you loose all your ships the GAME IS OVER");
             refreshPage();
@@ -174,8 +182,18 @@ console.log("Player 1 " + player1.gameBoard);
 createShip(player2, 4)
 console.log("Player 2 " + player2.gameBoard);
 //console.log("Player 2 " + JSON.stringify(player2.gameBoard));
-player1.name = prompt ('Welcome, what is your name?')
-player2.name = prompt ('Welcome, what is your name?')
-alert ("We will play the Battleship Game")
-alert ("You will have one turn at the time")
+
+
+setTimeout(function(){ 
+  player1.name = prompt ('Welcome, what is your name?')
+  player2.name = prompt ('Welcome, what is your name?')
+  alert ("We will play the Battleship Game")
+  alert ("You will have one turn at the time")
+});
+
+
+
+
+
+
 /// FALTA WINNER 
